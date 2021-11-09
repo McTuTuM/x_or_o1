@@ -7,9 +7,58 @@ from PyQt5 import QtWidgets
 
 
 pygame.init
-class ini(Ui_MainWindow):
+# class ini(Ui_MainWindow):
 
+#     def __init__(self, parend):
+        # Ui_MainWindow.__init__(self)
+        # self.loc = None
+        # self.loc1start = None
+        # self.loc1end = None
+        # self.loc2start = None
+        # self.loc2end = None
+        # self.incorrect = False
+        # self.memory = 0 
+        # self.button_event()
+        # self.x = True
+        # self.parend = parend
+
+    # def button_event(self):
+    #     pass 
+
+    # def x_or_o(self, loc, loc1start, loc1end, loc2start, loc2end):
+    #     self.x = not self.x
+    #     if self.x:
+    #         self.figure_1(loc)
+    #         self.memory = 1
+    #     else:
+    #         self.figure_2(loc1start, loc1end, loc2start, loc2end)
+    #         self.memory = 2
+            
+
+    # def chek(self, loc, loc1start, loc1end, loc2start, loc2end):
+    #     if not self.incorrect:
+    #         self.x_or_o(loc, loc1start, loc1end, loc2start, loc2end)
+    #         self.incorrect = True
+    #     else:
+    #         print("---")
+    
+    # def figure_1(self, loc):
+    #     pygame.draw.circle(lo.screen, THECOLORS["black"], loc, round(1 / (2.5 * lo.grid) * min(lo.height, lo.width)),  lo.size)
+        
+    # def figure_2(self, loc1start, loc1end, loc2start, loc2end):
+    #     pygame.draw.line(self.parend.c, THECOLORS["black"], loc1start, loc1end,  lo.size)
+    #     pygame.draw.line(lo.screen, THECOLORS["black"], loc2start, loc2end, lo.size)
+    
+
+class window(Ui_MainWindow):
     def __init__(self):
+        self.height = 600
+        self.width = 600
+        self.game_over = False
+        self.grid = 3
+        self.size = math.ceil((self.width * 0.02) / ((self.grid) / 2))
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.game_over = False
         Ui_MainWindow.__init__(self)
         self.loc = None
         self.loc1start = None
@@ -20,45 +69,6 @@ class ini(Ui_MainWindow):
         self.memory = 0 
         self.button_event()
         self.x = True
-
-    def button_event(self):
-        pass 
-
-    def x_or_o(self, loc, loc1start, loc1end, loc2start, loc2end):
-        self.x = not self.x
-        if self.x:
-            self.figure_1(loc)
-            self.memory = 1
-        else:
-            self.figure_2(loc1start, loc1end, loc2start, loc2end)
-            self.memory = 2
-            
-
-    def chek(self, loc, loc1start, loc1end, loc2start, loc2end):
-        if not self.incorrect:
-            self.x_or_o(loc, loc1start, loc1end, loc2start, loc2end)
-            self.incorrect = True
-        else:
-            print("---")
-    
-    def figure_1(self, loc):
-        pygame.draw.circle(self.idn.screen, THECOLORS["black"], loc, round(1 / (2.5 * self.grid) * min(self.height, self.width)),  self.size)
-
-    def figure_2(self, loc1start, loc1end, loc2start, loc2end):
-        pygame.draw.line(window.screen, THECOLORS["black"], loc1start, loc1end,  self.size)
-        pygame.draw.line(self.screen, THECOLORS["black"], loc2start, loc2end, self.size)
-    
-
-class window:
-    def __init__(self):
-        # ini.__init__(self)
-        self.height = 600
-        self.width = 600
-        self.game_over = False
-        self.grid = 3
-        self.size = math.ceil((self.width * 0.02) / ((self.grid) / 2))
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.game_over = False
 
 
     def location1(self, event, i, j):
@@ -74,7 +84,7 @@ class window:
             loc1end = (end_line_x, end_line_y) 
             loc2start = (end_line_x, start_line_y) 
             loc2end = (start_line_x, end_line_y) 
-
+            
             loc = (
                 (i - 1)/ self.grid * self.width + 1 / 2 * (1 / self.grid * self.width), 
                 (j - 1)/ self.grid * self.height + 1 / 2 * (1 / self.grid * self.height)
@@ -90,7 +100,7 @@ class window:
         for i in range(self.grid):
             arr2 = []
             for j in range(self.grid):
-                arr2.append(ini())
+                arr2.append(window())
             arr.append(arr2)
         
         while not self.game_over:
@@ -164,7 +174,33 @@ class window:
     #         input()
     #         menu_start = False
     #     return menu_start
+    def button_event(self):
+        pass 
 
+    def x_or_o(self, loc, loc1start, loc1end, loc2start, loc2end):
+        self.x = not self.x
+        if self.x:
+            self.figure_1(loc)
+            self.memory = 1
+        else:
+            self.figure_2(loc1start, loc1end, loc2start, loc2end)
+            self.memory = 2
+            
+
+    def chek(self, loc, loc1start, loc1end, loc2start, loc2end):
+        if not self.incorrect:
+            self.x_or_o(loc, loc1start, loc1end, loc2start, loc2end)
+            self.incorrect = True
+        else:
+            print("---")
+    
+    def figure_1(self, loc):
+        pygame.draw.circle(lo.screen, THECOLORS["black"], loc, round(1 / (2.5 * lo.grid) * min(lo.height, lo.width)),  lo.size)
+        
+    def figure_2(self, loc1start, loc1end, loc2start, loc2end):
+        pygame.draw.line(self.screen, THECOLORS["black"], loc1start, loc1end, self.size)
+        pygame.draw.line(self.screen, THECOLORS["black"], loc2start, loc2end, self.size)
+    
     def field(self):
         self.screen.fill(THECOLORS['white'])
         for i in range(1, self.grid):
