@@ -7,9 +7,10 @@ from PyQt5 import QtWidgets
 
 
 pygame.init
-class ini(Ui_MainWindow, QtWidgets.QMainWindow):
-    x = True
+class ini(Ui_MainWindow):
+
     def __init__(self):
+        Ui_MainWindow.__init__(self)
         self.loc = None
         self.loc1start = None
         self.loc1end = None
@@ -17,10 +18,15 @@ class ini(Ui_MainWindow, QtWidgets.QMainWindow):
         self.loc2end = None
         self.incorrect = False
         self.memory = 0 
+        self.button_event()
+        self.x = True
+
+    def button_event(self):
+        pass 
 
     def x_or_o(self, loc, loc1start, loc1end, loc2start, loc2end):
-        ini.x = not ini.x
-        if ini.x:
+        self.x = not self.x
+        if self.x:
             self.figure_1(loc)
             self.memory = 1
         else:
@@ -34,116 +40,116 @@ class ini(Ui_MainWindow, QtWidgets.QMainWindow):
             self.incorrect = True
         else:
             print("---")
+    
+    def figure_1(self, loc):
+        pygame.draw.circle(self.idn.screen, THECOLORS["black"], loc, round(1 / (2.5 * self.grid) * min(self.height, self.width)),  self.size)
 
-    @staticmethod
-    def figure_1(loc):
-        pygame.draw.circle(window.screen, THECOLORS["black"], loc, round(1 / (2.5 * window.grid) * min(window.height, window.width)),  window.size)
-
-    @staticmethod
-    def figure_2(loc1start, loc1end, loc2start, loc2end):
-        pygame.draw.line(window.screen, THECOLORS["black"], loc1start, loc1end,  window.size)
-        pygame.draw.line(window.screen, THECOLORS["black"], loc2start, loc2end,  window.size)
+    def figure_2(self, loc1start, loc1end, loc2start, loc2end):
+        pygame.draw.line(window.screen, THECOLORS["black"], loc1start, loc1end,  self.size)
+        pygame.draw.line(self.screen, THECOLORS["black"], loc2start, loc2end, self.size)
     
 
 class window:
+    def __init__(self):
+        # ini.__init__(self)
+        self.height = 600
+        self.width = 600
+        self.game_over = False
+        self.grid = 3
+        self.size = math.ceil((self.width * 0.02) / ((self.grid) / 2))
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.game_over = False
 
-    height = 600
-    width = 1200
-    game_over = False
-    grid = 3
-    size = math.ceil((width * 0.02) / ((grid) / 2))
-    @staticmethod
-    def location1(event, i, j):
+
+    def location1(self, event, i, j):
         if (
-            (i - 1) / window.grid * window.width < event.pos[0] < i / window.grid * window.width and 
-            (j - 1) / window.grid * window.height < event.pos[1] < j / window.grid * window.height
+            (i - 1) / self.grid * self.width < event.pos[0] < i / self.grid * self.width and 
+            (j - 1) / self.grid * self.height < event.pos[1] < j / self.grid * self.height
         ):
-            start_line_x = (i - 1)/ window.grid * window.width + 2 / 30 * (1 / window.grid * window.width)
-            end_line_x = start_line_x + 26 / 30 * (1 / window.grid *window.width)
-            start_line_y = (j - 1)/ window.grid * window.height + 2 / 30 * (1 / window.grid * window.height)
-            end_line_y = start_line_y + 26 / 30 * (1 / window.grid * window.height)
+            start_line_x = (i - 1)/ self.grid * self.width + 2 / 30 * (1 / self.grid * self.width)
+            end_line_x = start_line_x + 26 / 30 * (1 / self.grid *self.width)
+            start_line_y = (j - 1)/ self.grid * self.height + 2 / 30 * (1 / self.grid * self.height)
+            end_line_y = start_line_y + 26 / 30 * (1 / self.grid * self.height)
             loc1start = (start_line_x, start_line_y) 
             loc1end = (end_line_x, end_line_y) 
             loc2start = (end_line_x, start_line_y) 
             loc2end = (start_line_x, end_line_y) 
 
             loc = (
-                (i - 1)/ window.grid * window.width + 1 / 2 * (1 / window.grid * window.width), 
-                (j - 1)/ window.grid * window.height + 1 / 2 * (1 / window.grid * window.height)
+                (i - 1)/ self.grid * self.width + 1 / 2 * (1 / self.grid * self.width), 
+                (j - 1)/ self.grid * self.height + 1 / 2 * (1 / self.grid * self.height)
             )                       
             
             return loc, loc1start, loc1end, loc2start, loc2end
     
-    
-    @staticmethod
-    def start():
-        window.field()
-        window.game_over = False
+
+    def start(self):
+        self.field()
         arr = []
-        ini.x = True
-        for i in range(window.grid):
+        self.x = True
+        for i in range(self.grid):
             arr2 = []
-            for j in range(window.grid):
+            for j in range(self.grid):
                 arr2.append(ini())
             arr.append(arr2)
         
-        while not window.game_over:
+        while not self.game_over:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    for i in range(window.grid):
-                        for j in range(window.grid):
-                            data = window.location1(event, i + 1, j + 1)
+                    for i in range(self.grid):
+                        for j in range(self.grid):
+                            data = self.location1(event, i + 1, j + 1)
                             if data is not None:
                                 arr[i][j].chek(*data)
-                    window.win_or_lose(arr)
+                    self.win_or_lose(arr)
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 pygame.display.flip()
 
-        window.start()
+        self.start()
     
     screen1 = pygame.display.set_mode((300,150))
     #menu()
-    screen = pygame.display.set_mode((width, height))
-    def win_or_lose(arr):
+    
+    def win_or_lose(self, arr):
         s = 0
         for i in arr:
             if all(tuple(j.memory == 1 for j in i )):
                 print('win o') 
-                window.game_over = True      
+                self.game_over = True      
             elif all(tuple(j.memory == 2 for j in i )):
                 print('win x') 
-                window.game_over = True
-        for j in range(window.grid):
-            for i in range(window.grid):
-                if all(tuple(arr[i] [j].memory == 1 for i in range(window.grid))):
+                self.game_over = True
+        for j in range(self.grid):
+            for i in range(self.grid):
+                if all(tuple(arr[i] [j].memory == 1 for i in range(self.grid))):
                     print('win o') 
-                    window.game_over = True      
-                elif all(tuple(arr[i] [j].memory == 2 for i in range(window.grid))):
+                    self.game_over = True      
+                elif all(tuple(arr[i] [j].memory == 2 for i in range(self.grid))):
                     print('win x') 
-                    window.game_over = True
+                    self.game_over = True
 
-        if all(arr[j][j].memory == 1 for j in range(window.grid)):
+        if all(arr[j][j].memory == 1 for j in range(self.grid)):
                 print('o win')
-                window.game_over = True 
-        elif all(arr[j][j].memory == 2 for j in range(window.grid)):
+                self.game_over = True 
+        elif all(arr[j][j].memory == 2 for j in range(self.grid)):
                 print('x win')    
-                window.game_over = True
-        if all(arr[j][window.grid - 1 - j].memory == 1 for j in range(window.grid)):
+                self.game_over = True
+        if all(arr[j][self.grid - 1 - j].memory == 1 for j in range(self.grid)):
                 print('o win')
-                window.game_over = True
-        elif all(arr[j][window.grid - 1 - j].memory == 2 for j in range(window.grid)):
+                self.game_over = True
+        elif all(arr[j][self.grid - 1 - j].memory == 2 for j in range(self.grid)):
                 print('x win')
-                window.game_over = True
-        for i in range(window.grid):
-            for j in range(window.grid):
+                self.game_over = True
+        for i in range(self.grid):
+            for j in range(self.grid):
                 if arr[i] [j].memory > 0 :
                     s += 1
-                    if s == window.grid ** 2:
+                    if s == self.grid ** 2:
                         print("nothink")
     
-                        window.game_over = True
+                        self.game_over = True
 
     # def menu(self):
 
@@ -159,12 +165,12 @@ class window:
     #         menu_start = False
     #     return menu_start
 
-    @staticmethod
-    def field():
-        window.screen.fill(THECOLORS['white'])
-        for i in range(1, window.grid):
-            pygame.draw.line(window.screen, THECOLORS['black'], ((i / window.grid * window.width, 0)),((i / window.grid * window.width, window.height)), window.size)  
-            pygame.draw.line(window.screen, THECOLORS['black'], ((0, i / window.grid * window.height)),((window.width, i / window.grid * window.height)), window.size)     
+    def field(self):
+        self.screen.fill(THECOLORS['white'])
+        for i in range(1, self.grid):
+            pygame.draw.line(self.screen, THECOLORS['black'], ((i / self.grid * self.width, 0)),((i / self.grid * self.width, self.height)), self.size)  
+            pygame.draw.line(self.screen, THECOLORS['black'], ((0, i / self.grid * self.height)),((self.width, i / self.grid * self.height)), self.size)     
         
 if __name__ == "__main__":
-    window.start()
+    lo = window()
+    lo.start()
