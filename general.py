@@ -100,8 +100,8 @@ class window(Ui_MainWindow):
         for i in range(self.grid):
             arr2 = []
             for j in range(self.grid):
-                arr2.append(window())
-            arr.append(arr2)
+                arr2.append(3)
+            arr.append(self.memory)
         
         while not self.game_over:
             for event in pygame.event.get():
@@ -110,7 +110,7 @@ class window(Ui_MainWindow):
                         for j in range(self.grid):
                             data = self.location1(event, i + 1, j + 1)
                             if data is not None:
-                                arr[i][j].chek(*data)
+                                self.chek(*data)
                     self.win_or_lose(arr)
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -125,7 +125,7 @@ class window(Ui_MainWindow):
     def win_or_lose(self, arr):
         s = 0
         for i in arr:
-            if all(tuple(j.memory == 1 for j in i )):
+            if all(tuple(j.self.memory == 1 for j in i )):
                 print('win o') 
                 self.game_over = True      
             elif all(tuple(j.memory == 2 for j in i )):
