@@ -32,8 +32,8 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         
-        self.height = self.graphicsView.geometry([2])
-        self.width = self.graphicsView.geometry([3])
+        # self.graphicsView.geometry([2])
+        # self.graphicsView.geometry([3])
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

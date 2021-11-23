@@ -1,13 +1,13 @@
-from x_or_o import QtWidgets, Ui_MainWindow
-from general import window
+from Window import Window
 import sys
 from PyQt5 import QtWidgets
 
 if __name__ == "__main__":
         app = QtWidgets.QApplication(sys.argv)
-        MainWindow = QtWidgets.QMainWindow()
-        ui = Ui_MainWindow()
-        ui.setupUi(MainWindow)
+        MainWindow = Window()
+        # ui = Ui_MainWindow()
+        # # ui.setupUi(MainWindow)
         MainWindow.show()
-        print(ui.graphicsView)
+        # h = ui.graphicsView.height()
+        # w = ui.graphicsView.width()  
         sys.exit(app.exec_())

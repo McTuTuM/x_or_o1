@@ -33,7 +33,7 @@ pygame.init
     #         self.memory = 2
             
 
-    # def chek(self, loc, loc1start, loc1end, loc2start, loc2end):
+    # def check(self, loc, loc1start, loc1end, loc2start, loc2end):
     #     if not self.incorrect:
     #         self.x_or_o(loc, loc1start, loc1end, loc2start, loc2end)
     #         self.incorrect = True
@@ -108,7 +108,7 @@ class General():
                         for j in range(self.grid):
                             data = self.location1(event, i + 1, j + 1)
                             if data is not None:
-                                arr[i][j].chek(*data)
+                                arr[i][j].check(*data)
                     self.win_or_lose(arr)
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -172,7 +172,7 @@ class General():
     #         self.memory = 2
             
 
-    # def chek(self, loc, loc1start, loc1end, loc2start, loc2end):
+    # def check(self, loc, loc1start, loc1end, loc2start, loc2end):
     #     if not self.incorrect:
     #         self.x_or_o(loc, loc1start, loc1end, loc2start, loc2end)
     #         self.incorrect = True
@@ -210,7 +210,7 @@ class Box():
             self.memory = 2
             
 
-    def chek(self, loc, loc1start, loc1end, loc2start, loc2end):
+    def check(self, loc, loc1start, loc1end, loc2start, loc2end):
         if not self.incorrect:
             self.x_or_o(loc, loc1start, loc1end, loc2start, loc2end)
             self.incorrect = True
